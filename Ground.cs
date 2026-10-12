@@ -21,7 +21,11 @@ earth[0] = (0, (int)(windows_height * 0.9), windows_width-1, windows_height-1);
 int grass_chance = 25;
 string grass = "|";
 
-
+//stars
+int star_chance = 3;
+string star_symbol = "*";
+(int X_start, int Y_start, int X_end, int Y_end)[] star = new (int, int, int, int)[1];
+star[0] = (0, 0, windows_width - 1, (int)(windows_height * 0.2));
 
 //----code----//
 Action ground = () =>
@@ -69,5 +73,17 @@ Action ground = () =>
 
 ground();
 
+for (int i = star[0].X_start; i <= star[0].X_end; i++)
+{
+    for (int y = star[0].Y_start; y <= star[0].Y_end; y++)
+    {
+        int random_star = random.Next(1, 101);
+        Console.SetCursorPosition(i, y);
+        if (random_star <= star_chance)
+        {
+            Console.Write(star_symbol);
+        }
+    }
+}
 
 Console.ReadLine();
