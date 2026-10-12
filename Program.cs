@@ -103,6 +103,14 @@ while (true)
 
         if (key.Key == ConsoleKey.DownArrow || key.Key == ConsoleKey.S)
         {
+            if (cursor_location == 3)
+            {
+                cursor_location = 1;
+            }
+            else
+            {
+                cursor_location++;
+            }
             switch (cursor_location)
             {
                 case 1:
@@ -111,7 +119,7 @@ while (true)
                     button_symbol = button_off;
                     button_settings();
                     button_exit();
-                    cursor_location = 2;
+                    cursor_location = 1;
                     break;
 
                 case 2:
@@ -120,7 +128,7 @@ while (true)
                     button_symbol = button_off;
                     button_start();
                     button_exit();
-                    cursor_location = 3;
+                    cursor_location = 2;
                     break;
 
                 case 3:
@@ -129,10 +137,47 @@ while (true)
                     button_symbol = button_off;
                     button_start();
                     button_settings();
-                    cursor_location = 1;
+                    cursor_location = 3;
                     break;
+            }
+        }
+
+        if (key.Key == ConsoleKey.UpArrow || key.Key == ConsoleKey.W)
+        {
+            if (cursor_location == 1)
+            {
+                cursor_location = 3;
+            }
+            else
+            {
+                cursor_location--;
+            }
+            switch (cursor_location)
+            {
+                case 1:
+                    button_symbol = button_on;
+                    button_start();
+                    button_symbol = button_off;
+                    button_settings();
+                    button_exit();                        
+                    break;
+
+                case 2:
+                    button_symbol = button_on;
+                    button_settings();
+                    button_symbol = button_off;
+                    button_start();
+                    button_exit();                        
+                    break;
+
+                case 3:
+                    button_symbol = button_on;
+                    button_exit();
+                    button_symbol = button_off;
+                    button_start();
+                    button_settings();                        
+                break;
             }
         }
     }
 }
-Console.ReadLine();
