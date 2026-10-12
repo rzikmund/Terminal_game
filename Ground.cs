@@ -30,6 +30,8 @@ string star_symbol = "*";
 star[0] = (0, 0, windows_width - 1, (int)(windows_height * 0.2));
 
 //hero
+
+
 string hero_symbol = "X";
 
 (int X, int Y)[] hero_location = new (int, int)[1];
@@ -125,15 +127,39 @@ while (true)
             key = Console.ReadKey(true);
         }
 
-        if (key.Key == ConsoleKey.LeftArrow || key.Key == ConsoleKey.D)
+        if ((key.Key == ConsoleKey.RightArrow || key.Key == ConsoleKey.D) && hero_location[0].X <= windows_width-1)
         {
             hero_delete();
             hero_location[0].X++;
             body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
             hero_movement();
+
+            if (hero_location[0].X >= windows_width * 0.75)
+            {
+                hero_location[0].X--;
+                body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
+                hero_movement();
+                hero_delete();
+
+                earth[0] = (windows_width - 1, (int)(windows_height * 0.9), windows_width - 1, windows_height - 1);
+                star[0] = (windows_width - 1, 0, windows_width - 1, (int)(windows_height * 0.2));
+                grass_start_x = windows_width - 1;
+                grass_end_x = windows_width - 1;
+                Console.MoveBufferArea
+                    (
+                        sourceLeft: 1,
+                        sourceTop: 0,
+                        sourceWidth: windows_width - 1,
+                        sourceHeight: windows_height,
+                        targetLeft: 0,
+                        targetTop: 0
+                    );
+                ground();
+
+            }
         }
 
-        if (key.Key == ConsoleKey.RightArrow || key.Key == ConsoleKey.A)
+        if ((key.Key == ConsoleKey.LeftArrow || key.Key == ConsoleKey.A) && hero_location[0].X >= 1)
         {
             hero_delete();
             hero_location[0].X--;
@@ -141,20 +167,34 @@ while (true)
             hero_movement();
         }
 
+        if ((key.Key == ConsoleKey.UpArrow || key.Key == ConsoleKey.W) && hero_location[0].X >= 1)
+        {
+            if ((key.Key == ConsoleKey.LeftArrow || key.Key == ConsoleKey.A) && hero_location[0].X >= 1)
+            {
+                hero_delete();
+                hero_location[0].Y = hero_location[0].Y - 2;
+                hero_location[0].X -= 2;
+                body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
+                hero_movement();
+
+                Thread.Sleep(150);
+
+                hero_delete();
+                hero_location[0].Y = hero_location[0].Y + 2;                
+                body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
+                hero_movement();
+            }
+            hero_delete();
+            hero_location[0].Y = hero_location[0].Y-2;
+            body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
+            hero_movement();
+
+            Thread.Sleep(150);
+
+            hero_delete();
+            hero_location[0].Y = hero_location[0].Y + 2;
+            body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
+            hero_movement();
+        }
     }
 }
-
- /*           earth[0] = (windows_width - 1, (int)(windows_height * 0.9), windows_width - 1, windows_height - 1);
-            star[0] = (windows_width - 1, 0, windows_width - 1, (int)(windows_height * 0.2));
-            grass_start_x = windows_width - 1;
-            grass_end_x = windows_width - 1;
-            Console.MoveBufferArea
-                (
-                    sourceLeft: 1,
-                    sourceTop: 0,
-                    sourceWidth: windows_width-1,
-                    sourceHeight: windows_height,
-                    targetLeft: 0,
-                    targetTop: 0
-                );
-            ground();*/
