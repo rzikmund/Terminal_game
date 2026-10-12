@@ -33,7 +33,20 @@ string config_5 = "5. Back";
 (int X, int Y)[] config_menu_location = new (int, int)[1];
 config_menu_location[0] = ((int)(window_width * 0.05), (int)(window_height * 0.15));
 
+//text on down leadge
+string down_text1 = "[Arrows] Movement";
+string down_text2 = "[Space/Enter] Change";
+string down_text3 = "[Tab] Switch panel";
 
+//location of down text
+(int X, int Y)[] down_text_location = new (int, int)[1];
+down_text_location[0] = ((int)(window_width * 0.095), (int)(window_height * 0.95));
+
+//pointer
+string pointer_symbol = "#";
+int pointer_location = 1;
+(int X, int Y)[] pointer = new (int, int)[1];
+pointer[0] = ((int)(window_width * 0.025), (int)(window_height * 0.15));
 
 //----CODE----//
 
@@ -84,4 +97,161 @@ Console.SetCursorPosition(config_menu_location[0].X, (int)(config_menu_location[
 Console.Write(config_4);
 Console.SetCursorPosition(config_menu_location[0].X, (int)(config_menu_location[0].Y * 3));
 Console.Write(config_5);
-Console.ReadLine();
+
+//placing down text
+Console.SetCursorPosition(down_text_location[0].X, down_text_location[0].Y);
+Console.Write(down_text1);
+Console.SetCursorPosition((int)(down_text_location[0].X*4), down_text_location[0].Y);
+Console.Write(down_text2);
+Console.SetCursorPosition((int)(down_text_location[0].X * 8), down_text_location[0].Y);
+Console.Write(down_text3);
+
+//static pointer
+Console.SetCursorPosition(pointer[0].X, pointer[0].Y);
+Console.Write(pointer_symbol);
+pointer_location = 2;
+
+//user-controlled pointer
+while (true)
+{
+    if (Console.KeyAvailable)
+    {
+        ConsoleKeyInfo key = Console.ReadKey(true);
+        while (Console.KeyAvailable)
+        {
+            key = Console.ReadKey(true);
+        }
+
+        if (key.Key == ConsoleKey.DownArrow || key.Key == ConsoleKey.S)
+        {
+            if (pointer_location == 5)
+            {
+                pointer_location = 0;
+            }
+            switch (pointer_location)
+            {
+                case 1:
+                    pointer_location++;
+                    //deleting
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 3));
+                    Console.Write(" ");
+                    //placing
+                    Console.SetCursorPosition(pointer[0].X, pointer[0].Y);
+                    Console.Write(pointer_symbol);
+                    pointer_location = 1;
+                    break;
+                
+                case 2:
+                    pointer_location++;
+                    //deleting
+                    Console.SetCursorPosition(pointer[0].X, pointer[0].Y);
+                    Console.Write(" ");
+                    //placing
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 1.5)); 
+                    Console.Write(pointer_symbol);
+                    pointer_location = 2;
+                    break;
+                
+                case 3:
+                    pointer_location++;
+                    //deleting
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 1.5));
+                    Console.Write(" ");
+                    //placing
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 2));
+                    Console.Write(pointer_symbol);
+                    pointer_location = 3;
+                    break;
+                                    
+                case 4:
+                    pointer_location++;
+                    //deleting
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 2));
+                    Console.Write(" ");
+                    //placing
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 2.5));
+                    Console.Write(pointer_symbol);
+                    pointer_location = 4;
+                    break;
+
+                case 5:
+                    pointer_location++;
+                    //deleting
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 2.5));
+                    Console.Write(" ");
+                    //placing
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 3));
+                    Console.Write(pointer_symbol);
+                    pointer_location = 5;
+                    break;
+
+            }
+        }
+        
+        if (key.Key == ConsoleKey.UpArrow || key.Key == ConsoleKey.W)
+        {
+            if (pointer_location == 1)
+            {
+                pointer_location = 6;
+            }
+            switch (pointer_location)
+            {
+                case 1:
+                    pointer_location--;
+                    //deleting
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 1.5));
+                    Console.Write(" ");
+                    //placing
+                    Console.SetCursorPosition(pointer[0].X, pointer[0].Y);
+                    Console.Write(pointer_symbol);
+                    pointer_location = 1;
+                    break;
+
+                case 2:
+                    pointer_location--;
+                    //deleting
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y*2));
+                    Console.Write(" ");
+                    //placing
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 1.5));
+                    Console.Write(pointer_symbol);
+                    pointer_location = 2;
+                    break;
+
+                case 3:
+                    pointer_location--;
+                    //deleting
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 2.5));
+                    Console.Write(" ");
+                    //placing
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 2));
+                    Console.Write(pointer_symbol);
+                    pointer_location = 3;
+                    break;
+
+                case 4:
+                    pointer_location--;
+                    //deleting
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 3));
+                    Console.Write(" ");
+                    //placing
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 2.5));
+                    Console.Write(pointer_symbol);
+                    pointer_location = 4;
+                    break;
+
+                case 5:
+                    pointer_location--;
+                    //deleting
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 1));
+                    Console.Write(" ");
+                    //placing
+                    Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y * 3));
+                    Console.Write(pointer_symbol);
+                    pointer_location = 5;
+                    break;
+            }
+        }
+        
+    }
+}
