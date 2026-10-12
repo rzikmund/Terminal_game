@@ -123,6 +123,9 @@ Action body_update = () =>
 //----MAIN LOOP----//
 
 ground();
+body_update();
+hero_movement();
+
 while (true)
 {
     if (Console.KeyAvailable)
@@ -143,10 +146,10 @@ while (true)
 
             if (hero_location[0].X >= windows_width * 0.75)
             {
+                hero_delete();
                 hero_location[0].X--;
                 body_update();
-                hero_movement();
-                hero_delete();
+                              
 
                 earth[0] = (windows_width - 1, (int)(windows_height * 0.9), windows_width - 1, windows_height - 1);
                 star[0] = (windows_width - 1, 0, windows_width - 1, (int)(windows_height * 0.2));
@@ -162,7 +165,7 @@ while (true)
                         targetTop: 0
                     );
                 ground();
-                
+                hero_movement();  
             }
         }
 
