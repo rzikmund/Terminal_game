@@ -38,10 +38,10 @@ string hero_symbol = "X";
 hero_location[0] = (1, earth[0].Y_start - (int)(windows_height * 0.07));
 
 (int X_start, int Y_start, int X_end, int Y_end)[] body = new (int, int, int, int)[1];
-body[0] = (hero_location[0].X+(int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
 
 
-//----code----//
+
+//----ACTIONS----//
 Action ground = () =>
 {
     for (int i = earth[0].X_start; i <= earth[0].X_end; i++)
@@ -113,10 +113,16 @@ Action hero_delete = () =>
         }
     }
 };
+
+Action body_update = () =>
+{
+    body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
+};
+
+
+//----MAIN LOOP----//
+
 ground();
-
-
-
 while (true)
 {
     if (Console.KeyAvailable)
@@ -131,14 +137,14 @@ while (true)
         {
             hero_delete();
             hero_location[0].X++;
-            body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
+            body_update();
             hero_movement();
             momentum = 1;
 
             if (hero_location[0].X >= windows_width * 0.75)
             {
                 hero_location[0].X--;
-                body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
+                body_update();
                 hero_movement();
                 hero_delete();
 
@@ -164,7 +170,7 @@ while (true)
         {
             hero_delete();
             hero_location[0].X--;
-            body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
+            body_update();
             hero_movement();
             momentum = -1;
         }
@@ -178,47 +184,87 @@ while (true)
                 case 0:
                     hero_delete();
                     hero_location[0].Y -= 2;
-                    body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
+                    body_update();
                     hero_movement();
 
                     Thread.Sleep(100);
 
                     hero_delete();
                     hero_location[0].Y += 2;
-                    body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
+                    body_update();
                     hero_movement();
                     break;
 
                 case 1:
-                    hero_delete();
-                    hero_location[0].Y -= 2;
-                    hero_location[0].X += 2;
-                    body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
-                    hero_movement();
+                    if (hero_location[0].X <= windows_width - 5)
+                    {
+                        hero_delete();
+                        hero_location[0].Y -= 2;
+                        hero_location[0].X += 2;
+                        body_update();
+                        hero_movement();
 
-                    Thread.Sleep(100);
+                        Thread.Sleep(100);
 
-                    hero_delete();
-                    hero_location[0].Y += 2;
-                    hero_location[0].X += 1;
-                    body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
-                    hero_movement();
+                        hero_delete();
+                        hero_location[0].Y += 2;
+                        hero_location[0].X += 1;
+                        body_update();
+                        hero_movement();
+                        momentum = 0;
+
+                    }
+                    else
+                    {
+                        hero_delete();
+                        hero_location[0].Y -= 2;
+                        body_update();
+                        hero_movement();
+
+                        Thread.Sleep(100);
+
+                        hero_delete();
+                        hero_location[0].Y += 2;
+                        body_update();
+                        hero_movement();
+                        momentum = 0;
+                    }
                     break;
 
+
                 case -1:
-                    hero_delete();
-                    hero_location[0].Y -= 2;
-                    hero_location[0].X -= 2;
-                    body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
-                    hero_movement();
+                    if (hero_location[0].X >= 5)
+                    {
+                        hero_delete();
+                        hero_location[0].Y -= 2;
+                        hero_location[0].X -= 2;
+                        body_update();
+                        hero_movement();
 
-                    Thread.Sleep(100);
+                        Thread.Sleep(100);
 
-                    hero_delete();
-                    hero_location[0].Y += 2;
-                    hero_location[0].X -= 1;
-                    body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
-                    hero_movement();
+                        hero_delete();
+                        hero_location[0].Y += 2;
+                        hero_location[0].X -= 1;
+                        body_update();
+                        hero_movement();
+                        momentum = 0;
+                    }
+                    else
+                    {
+                        hero_delete();
+                        hero_location[0].Y -= 2;
+                        body_update();
+                        hero_movement();
+
+                        Thread.Sleep(100);
+
+                        hero_delete();
+                        hero_location[0].Y += 2;
+                        body_update();
+                        hero_movement();
+                        momentum = 0;
+                    }
                     break;
 
             }
