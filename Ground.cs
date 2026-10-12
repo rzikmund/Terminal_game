@@ -29,6 +29,16 @@ string star_symbol = "*";
 (int X_start, int Y_start, int X_end, int Y_end)[] star = new (int, int, int, int)[1];
 star[0] = (0, 0, windows_width - 1, (int)(windows_height * 0.2));
 
+//hero
+string hero_symbol = "X";
+
+(int X, int Y)[] hero_location = new (int, int)[1];
+hero_location[0] = (1, earth[0].Y_start - (int)(windows_height * 0.07));
+
+(int X_start, int Y_start, int X_end, int Y_end)[] body = new (int, int, int, int)[1];
+body[0] = (hero_location[0].X+(int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
+
+
 //----code----//
 Action ground = () =>
 {
@@ -75,9 +85,21 @@ Action ground = () =>
     }
 };
 
-
+Action hero_mevement = () =>
+{
+    for (int i = body[0].X_start; i <= body[0].X_end; i++)
+    {
+        for (int y = body[0].Y_start; y <= body[0].Y_end; y++)
+        {
+            Console.SetCursorPosition(i, y);
+            Console.Write(hero_symbol);
+        }
+    }
+};
 
 ground();
+
+
 
 while (true)
 {
@@ -91,7 +113,14 @@ while (true)
 
         if (key.Key == ConsoleKey.LeftArrow || key.Key == ConsoleKey.D)
         {
-            earth[0] = (windows_width - 1, (int)(windows_height * 0.9), windows_width - 1, windows_height - 1);
+
+
+        }
+
+    }
+}
+
+ /*           earth[0] = (windows_width - 1, (int)(windows_height * 0.9), windows_width - 1, windows_height - 1);
             star[0] = (windows_width - 1, 0, windows_width - 1, (int)(windows_height * 0.2));
             grass_start_x = windows_width - 1;
             grass_end_x = windows_width - 1;
@@ -104,10 +133,4 @@ while (true)
                     targetLeft: 0,
                     targetTop: 0
                 );
-            ground();
-
-        }
-
-    }
-}
-      
+            ground();*/
