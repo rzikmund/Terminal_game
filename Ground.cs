@@ -85,18 +85,32 @@ Action ground = () =>
     }
 };
 
-Action hero_mevement = () =>
+Action hero_movement = () =>
 {
     for (int i = body[0].X_start; i <= body[0].X_end; i++)
     {
         for (int y = body[0].Y_start; y <= body[0].Y_end; y++)
         {
             Console.SetCursorPosition(i, y);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write(hero_symbol);
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 };
 
+Action hero_delete = () =>
+{
+    for (int i = body[0].X_start; i <= body[0].X_end; i++)
+    {
+        for (int y = body[0].Y_start; y <= body[0].Y_end; y++)
+        {
+            Console.SetCursorPosition(i, y);
+            Console.Write(" ");
+
+        }
+    }
+};
 ground();
 
 
@@ -113,8 +127,18 @@ while (true)
 
         if (key.Key == ConsoleKey.LeftArrow || key.Key == ConsoleKey.D)
         {
+            hero_delete();
+            hero_location[0].X++;
+            body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
+            hero_movement();
+        }
 
-
+        if (key.Key == ConsoleKey.RightArrow || key.Key == ConsoleKey.A)
+        {
+            hero_delete();
+            hero_location[0].X--;
+            body[0] = (hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.01), hero_location[0].X + (int)(windows_height * 0.01), hero_location[0].Y + (int)(windows_height * 0.04));
+            hero_movement();
         }
 
     }
