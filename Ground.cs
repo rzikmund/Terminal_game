@@ -18,11 +18,13 @@ string earth_symbol = "█";
 earth[0] = (0, (int)(windows_height * 0.9), windows_width-1, windows_height-1);
 
 //plants
-int grass_chance = 25;
+int grass_end_x = windows_width - 1;
+int grass_start_x = 0;
+int grass_chance = 1;
 string grass = "|";
 
 //stars
-int star_chance = 3;
+int star_chance = 1;
 string star_symbol = "*";
 (int X_start, int Y_start, int X_end, int Y_end)[] star = new (int, int, int, int)[1];
 star[0] = (0, 0, windows_width - 1, (int)(windows_height * 0.2));
@@ -35,31 +37,21 @@ Action ground = () =>
         for (int y = earth[0].Y_start; y <= earth[0].Y_end; y++)
         {
             int random_symbol = random.Next(1, 5);
+            
             switch (random_symbol)
             {
-                case 1:
-                    earth_symbol = "█";
-                    break;
-                case 2:
-                    earth_symbol = "▓";
-                    break;
-                case 3:
-                    earth_symbol = "▒";
-                    break;
-                case 4:
-                    earth_symbol = "░";
-                    break;
+                case 1: earth_symbol = "█"; break;
+                case 2: earth_symbol = "▓"; break;
+                case 3: earth_symbol = "▒"; break;
+                case 4: earth_symbol = "░"; break;
             }
 
             Console.SetCursorPosition(i, y);
             Console.Write(earth_symbol);
-            Console.SetCursorPosition(i, y);
-            Console.Write(earth_symbol);
         }
-
     }
-
-    for (int i = 0; i <= windows_width - 1; i++)
+    //---generatig grass---//
+    for (int i = grass_start_x; i <= grass_end_x; i++)
     {
         int random_grass = random.Next(1, 101);
         Console.SetCursorPosition(i, earth[0].Y_start - 1);
@@ -68,22 +60,54 @@ Action ground = () =>
             Console.Write(grass);
         }
     }
-
+    //---generating stars---//
+    for (int i = star[0].X_start; i <= star[0].X_end; i++)
+    {
+        for (int y = star[0].Y_start; y <= star[0].Y_end; y++)
+        {
+            int random_star = random.Next(1, 101);
+            Console.SetCursorPosition(i, y);
+            if (random_star <= star_chance)
+            {
+                Console.Write(star_symbol);
+            }
+        }
+    }
 };
+
+
 
 ground();
 
-for (int i = star[0].X_start; i <= star[0].X_end; i++)
+while (true)
 {
-    for (int y = star[0].Y_start; y <= star[0].Y_end; y++)
+    if (Console.KeyAvailable)
     {
-        int random_star = random.Next(1, 101);
-        Console.SetCursorPosition(i, y);
-        if (random_star <= star_chance)
+        ConsoleKeyInfo key = Console.ReadKey(true);
+        while (Console.KeyAvailable)
         {
-            Console.Write(star_symbol);
+            key = Console.ReadKey(true);
         }
+
+        if (key.Key == ConsoleKey.LeftArrow || key.Key == ConsoleKey.D)
+        {
+            earth[0] = (windows_width - 1, (int)(windows_height * 0.9), windows_width - 1, windows_height - 1);
+            star[0] = (windows_width - 1, 0, windows_width - 1, (int)(windows_height * 0.2));
+            grass_start_x = windows_width - 1;
+            grass_end_x = windows_width - 1;
+            Console.MoveBufferArea
+                (
+                    sourceLeft: 1,
+                    sourceTop: 0,
+                    sourceWidth: windows_width-1,
+                    sourceHeight: windows_height,
+                    targetLeft: 0,
+                    targetTop: 0
+                );
+            ground();
+
+        }
+
     }
 }
-
-Console.ReadLine();
+      
