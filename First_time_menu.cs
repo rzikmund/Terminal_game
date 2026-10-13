@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 Console.CursorVisible = false;
@@ -17,6 +19,20 @@ string hero_text = " HERO ";
 string name_text = "1. Character name";
 string race_text = "2. Race";
 string profession_text = "3. Profession";
+
+string power_text = "POWER: ";
+string intelligence_text = "INTELLIGENCE: ";
+string dexterity_text = "DEXTERITY: ";
+
+string race_1 = "Human";
+string race_2 = "Elf";
+string race_3 = "Dwarf";
+string race_4 = "Orc";
+
+string profession_1 = "Warrior";
+string profession_2 = "Mage";
+string profession_3 = "Thief";
+
 
 string asking_for_name_text = "[ Enter name... ]";
 ConsoleColor text_color = ConsoleColor.White;
@@ -51,13 +67,15 @@ ConsoleColor head_color = ConsoleColor.Gray;
 ConsoleColor body_color = ConsoleColor.Red;
 
 //text location//
-(int X, int Y)[] text_location = new (int, int)[7];
+(int X, int Y)[] text_location = new (int, int)[9];
 text_location[1] = ((int)(windows_width / 2) - (head_text.Length) + 2, 0);  //head text
 text_location[2] = ((int)(windows_width * 0.05), (int)(windows_height * 0.1));   //hero name text
 text_location[3] = ((int)(windows_width * 0.05), (int)(windows_height * 0.2));  //race text
 text_location[4] = ((int)(windows_width * 0.05), (int)(windows_height * 0.3)); //profession text
-text_location[5] = ((int)(windows_width * 0.05), (int)(windows_height * 0.3));
-text_location[6] = ((int)((windows_width * 0.125) / 2) + (hero_text.Length), (int)(windows_height * 0.60) + 1);   //hero text
+text_location[5] = ((int)(windows_width * 0.05), (int)(windows_height * 0.45));  //power text
+text_location[6] = ((int)(windows_width * 0.05), (int)(windows_height * 0.5)); //intelligence text 
+text_location[7] = ((int)(windows_width * 0.05), (int)(windows_height * 0.57));  //dexterity text
+text_location[8] = ((int)((windows_width * 0.125) / 2) + (hero_text.Length), (int)(windows_height * 0.60) + 1);   //hero text
 
 
 //---CODE---//
@@ -72,6 +90,8 @@ for (int i = 1; i < windows_width - 1; i++)
 
     //dividing line
     Console.SetCursorPosition(i, (int)(windows_height * 0.60));
+    Console.Write(line);
+    Console.SetCursorPosition(i, (int)(windows_height * 0.40));
     Console.Write(line);
 }
 
@@ -110,11 +130,22 @@ Console.SetCursorPosition(text_location[3].X, text_location[3].Y);
 Console.Write(race_text + "  " + arrow);
 Console.SetCursorPosition(text_location[4].X, text_location[4].Y);
 Console.Write(profession_text + "  " + arrow);
+Console.SetCursorPosition(text_location[5].X, text_location[5].Y);
+Console.Write(power_text);
 Console.SetCursorPosition(text_location[6].X, text_location[6].Y);
+Console.Write(intelligence_text);
+Console.SetCursorPosition(text_location[7].X, text_location[7].Y);
+Console.Write(dexterity_text);
+Console.SetCursorPosition(text_location[8].X, text_location[8].Y);
 Console.Write(hero_text);
 
 Console.SetCursorPosition(text_location[2].X + (name_text + "  " + arrow).Length + 2, text_location[2].Y);
 Console.Write(asking_for_name_text);
+Console.SetCursorPosition(text_location[3].X + (race_text + "  " + arrow).Length + 2, text_location[3].Y);
+Console.Write("< " + race_1 + " >" + " / " + race_2 + " / " + race_3 + " / " + race_4);
+Console.SetCursorPosition(text_location[4].X + (profession_text + "  " + arrow).Length + 2, text_location[4].Y);
+Console.Write("< " + profession_1 + " >" + " / " + profession_2 + " / " + profession_3);
+
 
 
 //placing hero
