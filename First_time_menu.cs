@@ -137,6 +137,14 @@ int curent_selection_hero_symbol = 1;
 int max_selection_hero_symbol = 1;
 int min_selection_hero_symbol = 1;
 
+int curent_selection_hero_name = 1;
+int max_selection_hero_name = 1;
+int min_selection_hero_name = 1;
+
+int curent_selection_profession = 1;
+int max_selection_profession = 3;
+int min_selection_profession = 1;
+
 string cursor_logo = "#";
 (int X, int Y)[] cursor = new (int, int)[1];
 cursor[0] = (1, 1);  //1 - first row,1 - first collum
@@ -339,6 +347,42 @@ Action hero_symbol_changing = () =>
     placing_hero();
 };
 
+Action hero_name = () =>
+{
+    Console.SetCursorPosition(text_location[2].X + (name_text + "  " + arrow).Length + 2, text_location[2].Y);
+    Console.Write("[          ]                       ");
+    Console.SetCursorPosition(text_location[2].X + (name_text + "  " + arrow).Length + 3, text_location[2].Y);
+    hero_name_answer = Console.ReadLine();
+    if (hero_name_answer.Length > 10)
+    {
+        hero_name_answer = "Leo";
+        Console.SetCursorPosition(text_location[2].X + (name_text + "  " + arrow).Length + 2, text_location[2].Y);
+        Console.Write("[10 symbols...]               ");
+    }
+
+
+};
+
+Action profession = () =>
+{
+    switch (curent_selection_profession)
+    {
+        case 1:
+            Console.SetCursorPosition(text_location[4].X + (profession_text + "  " + arrow).Length + 3, text_location[4].Y);
+            Console.Write("< " + profession_1 + " >" + " / " + profession_2 + " / " + profession_3);
+            break;
+        case 2:
+            Console.SetCursorPosition(text_location[4].X + (profession_text + " ").Length + 3, text_location[4].Y);
+            Console.Write("   "+profession_1 + " / " + " < " + profession_2 + " >" + " / " + profession_3 + "   ");
+            break;
+        case 3:
+            Console.SetCursorPosition(text_location[4].X + (profession_text + " ").Length + 3, text_location[4].Y);
+            Console.Write("   " + profession_1 + " / " + profession_2 + " / " + "< " + profession_3 + " >" +  "   ");
+            break;
+        
+    }
+};
+
 placing_hero();
 
 draw_cursor(curent_selection, cursor_logo);
@@ -384,6 +428,26 @@ while (true)
 
         if (key.Key == ConsoleKey.RightArrow || key.Key == ConsoleKey.D)
         {
+            if (curent_selection == 2)
+            {
+                curent_selection_hero_name++;
+                if (curent_selection_hero_name > max_selection_hero_name)
+                {
+                    curent_selection_hero_name = min_selection_hero_name;
+                }
+                hero_name();
+            }
+
+            if (curent_selection == 4)
+            {
+                curent_selection_profession++;
+                if (curent_selection_profession > max_selection_profession)
+                {
+                    curent_selection_profession = min_selection_profession;
+                }
+                profession();
+            }
+
 
             if (curent_selection == 8)
             {
@@ -418,6 +482,26 @@ while (true)
 
         if (key.Key == ConsoleKey.LeftArrow || key.Key == ConsoleKey.A)
         {
+            if (curent_selection == 2)
+            {
+                curent_selection_hero_name--;
+                if (curent_selection_hero_name > min_selection_hero_name)
+                {
+                    curent_selection_hero_name = max_selection_hero_name;
+                }
+                hero_name();
+            }
+
+            if (curent_selection == 8)
+            {
+                curent_selection_hero_symbol--;
+                if (curent_selection_hero_symbol < min_selection_hero_symbol)
+                {
+                    curent_selection_hero_symbol = max_selection_hero_symbol;
+                }
+                hero_symbol_changing();
+            }
+
             if (curent_selection == 9)
             {
                 curent_selection_head--;
