@@ -123,6 +123,10 @@ int curent_selection = 2;
 int max_selection = 11;
 int min_selection = 2;
 
+int curent_selection_body = 1;
+int max_selection_body = 4;
+int min_selection_body = 1;
+
 string cursor_logo = "#";
 (int X, int Y)[] cursor = new (int, int)[1];
 cursor[0] = (1, 1);  //1 - first row,1 - first collum
@@ -243,6 +247,42 @@ Action<int, string> draw_cursor = (index, logo) =>
     Console.SetCursorPosition(text_location[index].X - 2, text_location[index].Y);
     Console.Write(logo);
 };
+
+//render/delete body
+Action draw_body_text = () =>
+{
+    switch (curent_selection_body)
+    {
+        case 1:
+            Console.SetCursorPosition(text_location[10].X + (body_color_text + " ").Length + 2, text_location[10].Y);
+            Console.Write("< " + body_color_1 + " >" + " / " + body_color_2 + " / " + body_color_3 + " / " + body_color_4 + "   ");
+            body_color = ConsoleColor.Red;
+            placing_hero();
+            break;
+        case 2:
+            Console.SetCursorPosition(text_location[10].X + (body_color_text + " ").Length + 2, text_location[10].Y);
+            Console.Write(body_color_1+ " / " + " < " + body_color_2 + " >" + " / " + body_color_3 + " / " + body_color_4 + "   ");
+            body_color = ConsoleColor.Blue;
+            placing_hero();
+            break;
+        case 3:
+            Console.SetCursorPosition(text_location[10].X + (body_color_text + " ").Length + 2, text_location[10].Y);
+            Console.Write(body_color_1 + " / " + body_color_2 + " / " + "< " + body_color_3 + " >" + " / " + body_color_4 + "   ");
+            body_color = ConsoleColor.White;
+            placing_hero();
+            break;
+        
+        case 4:
+            Console.SetCursorPosition(text_location[10].X + (body_color_text + " ").Length + 2, text_location[10].Y);
+            Console.Write(body_color_1 + " / " + body_color_2 + " / " + body_color_3 + " / " + "< " + body_color_4 + " >" + "   ");
+            body_color = ConsoleColor.Gray;
+            placing_hero();
+            break;
+    }
+    
+};
+
+
 placing_hero();
 
 draw_cursor(curent_selection, cursor_logo);
@@ -288,12 +328,28 @@ while (true)
 
         if (key.Key == ConsoleKey.RightArrow || key.Key == ConsoleKey.D)
         {
-
+            if (curent_selection == 10)
+            {
+                curent_selection_body++;
+                if (curent_selection_body > max_selection_body)
+                {
+                    curent_selection_body = min_selection_body;
+                }
+                draw_body_text();
+            }
         }
 
         if (key.Key == ConsoleKey.LeftArrow || key.Key == ConsoleKey.A)
         {
-
+            if (curent_selection == 10)
+            {
+                curent_selection_body--;
+                if (curent_selection_body < min_selection_body)
+                {
+                    curent_selection_body = max_selection_body;
+                }
+                draw_body_text();
+            }
         }
     }
 }
