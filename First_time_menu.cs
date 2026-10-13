@@ -119,6 +119,10 @@ statistics_location[2] = (text_location[6].X + intelligence_text.Length + 2, tex
 statistics_location[3] = (text_location[7].X + intelligence_text.Length + 2, text_location[7].Y);  //dexterity grafic
 
 //cursor//
+int curent_selection = 2;
+int max_selection = 11;
+int min_selection = 2;
+
 string cursor_logo = "#";
 (int X, int Y)[] cursor = new (int, int)[1];
 cursor[0] = (1, 1);  //1 - first row,1 - first collum
@@ -233,10 +237,16 @@ Action placing_hero = () =>
     Console.ForegroundColor = text_color;
 };
 
+//render/delete cursor
+Action<int, string> draw_cursor = (index, logo) =>
+{
+    Console.SetCursorPosition(text_location[index].X - 2, text_location[index].Y);
+    Console.Write(logo);
+};
 placing_hero();
 
-Console.SetCursorPosition(text_location[2].X - 2, text_location[2].Y);
-Console.Write(cursor_logo);
+draw_cursor(curent_selection, cursor_logo);
+
 
 //-----DYNAMIC CODE ------//
 
@@ -251,226 +261,30 @@ while (true)
             key = Console.ReadKey(true);
         }
 
+        draw_cursor(curent_selection, " ");
+
+
         if (key.Key == ConsoleKey.UpArrow || key.Key == ConsoleKey.W)
         {
-            if (cursor[0].X == 0)
-            {
-                cursor[0].X = 9;
-            }
-            switch (cursor[0].X)
-            {
-                case 1:
-                    //delete
-                    Console.SetCursorPosition(text_location[10].X - 2, text_location[10].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[3].X - 2, text_location[3].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[2].X - 2, text_location[2].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X--;
-                    break;
-                case 2:
-                    //delete
-                    Console.SetCursorPosition(text_location[2].X - 2, text_location[2].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[4].X - 2, text_location[4].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[3].X - 2, text_location[3].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X--;
-                    break;
-                case 3:
-                    //delete
-                    Console.SetCursorPosition(text_location[3].X - 2, text_location[3].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[5].X - 2, text_location[5].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[4].X - 2, text_location[4].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X--;
-                    break;
-                case 4:
-                    //delete
-                    Console.SetCursorPosition(text_location[4].X - 2, text_location[4].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[6].X - 2, text_location[6].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[5].X - 2, text_location[5].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X--;
-                    break;
-                case 5:
-                    //delete
-                    Console.SetCursorPosition(text_location[5].X - 2, text_location[5].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[7].X - 2, text_location[7].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[6].X - 2, text_location[6].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X--;
-                    break;
-                case 6:
-                    //delete
-                    Console.SetCursorPosition(text_location[6].X - 2, text_location[6].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[8].X - 2, text_location[8].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[7].X - 2, text_location[7].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X--;
-                    break;
-                case 7:
-                    //delete
-                    Console.SetCursorPosition(text_location[7].X - 2, text_location[7].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[9].X - 2, text_location[9].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[8].X - 2, text_location[8].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X--;
-                    break;
-                case 8:
-                    //delete
-                    Console.SetCursorPosition(text_location[8].X - 2, text_location[8].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[10].X - 2, text_location[10].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[9].X - 2, text_location[9].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X--;
-                    break;
-                case 9:
-                    //delete
-                    Console.SetCursorPosition(text_location[9].X - 2, text_location[9].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[2].X - 2, text_location[2].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[10].X - 2, text_location[10].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X--;
-                    break;
-            }
+            curent_selection--;
+            if (curent_selection < min_selection) 
+            { 
+                curent_selection = max_selection; 
+            }           
+
         }
 
         if (key.Key == ConsoleKey.DownArrow || key.Key == ConsoleKey.S)
         {
-            if (cursor[0].X == 10)
-            {
-                cursor[0].X = 1;
+            curent_selection++;
+            if (curent_selection > max_selection) 
+            { 
+                curent_selection = min_selection;
             }
-
-            switch (cursor[0].X)
-            {
-                case 1:
-                    //delete
-                    Console.SetCursorPosition(text_location[10].X - 2, text_location[10].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[3].X - 2, text_location[3].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[2].X - 2, text_location[2].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X++;
-                    break;
-                case 2:
-                    //delete
-                    Console.SetCursorPosition(text_location[2].X - 2, text_location[2].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[4].X - 2, text_location[4].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[3].X - 2, text_location[3].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X++;
-                    break;
-                case 3:
-                    //delete
-                    Console.SetCursorPosition(text_location[3].X - 2, text_location[3].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[5].X - 2, text_location[5].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[4].X - 2, text_location[4].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X++;
-                    break;
-                case 4:
-                    //delete
-                    Console.SetCursorPosition(text_location[4].X - 2, text_location[4].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[6].X - 2, text_location[6].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[5].X - 2, text_location[5].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X++;
-                    break;
-                case 5:
-                    //delete
-                    Console.SetCursorPosition(text_location[5].X - 2, text_location[5].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[7].X - 2, text_location[7].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[6].X - 2, text_location[6].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X++;
-                    break;
-                case 6:
-                    //delete
-                    Console.SetCursorPosition(text_location[6].X - 2, text_location[6].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[8].X - 2, text_location[8].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[7].X - 2, text_location[7].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X++;
-                    break;
-                case 7:
-                    //delete
-                    Console.SetCursorPosition(text_location[7].X - 2, text_location[7].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[9].X - 2, text_location[9].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[8].X - 2, text_location[8].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X++;
-                    break;
-                case 8:
-                    //delete
-                    Console.SetCursorPosition(text_location[8].X - 2, text_location[8].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[10].X - 2, text_location[10].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[9].X - 2, text_location[9].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X++;
-                    break;
-                case 9:
-                    //delete
-                    Console.SetCursorPosition(text_location[9].X - 2, text_location[9].Y);
-                    Console.Write(" ");
-                    Console.SetCursorPosition(text_location[2].X - 2, text_location[2].Y);
-                    Console.Write(" ");
-                    //place
-                    Console.SetCursorPosition(text_location[10].X - 2, text_location[10].Y);
-                    Console.Write(cursor_logo);
-                    cursor[0].X++;
-                    break;
-            }
+            
         }
+
+        draw_cursor(curent_selection, cursor_logo);
 
         if (key.Key == ConsoleKey.RightArrow || key.Key == ConsoleKey.D)
         {
