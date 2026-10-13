@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 Console.CursorVisible = false;
 
@@ -126,6 +128,14 @@ int min_selection = 2;
 int curent_selection_body = 1;
 int max_selection_body = 4;
 int min_selection_body = 1;
+
+int curent_selection_head = 1;
+int max_selection_head = 4;
+int min_selection_head = 1;
+
+int curent_selection_hero_symbol = 1;
+int max_selection_hero_symbol = 1;
+int min_selection_hero_symbol = 1;
 
 string cursor_logo = "#";
 (int X, int Y)[] cursor = new (int, int)[1];
@@ -282,6 +292,52 @@ Action draw_body_text = () =>
     
 };
 
+Action draw_head_text = () =>
+{
+    switch (curent_selection_head)
+    {
+        case 1:
+            Console.SetCursorPosition(text_location[9].X + (head_color_text + " ").Length + 2, text_location[9].Y);
+            Console.Write("< " + head_color_1 + " >" + " / " + head_color_2 + " / " + head_color_3 + " / " + head_color_4 + "   ");
+            head_color = ConsoleColor.Red;
+            placing_hero();
+            break;
+        case 2:
+            Console.SetCursorPosition(text_location[9].X + (head_color_text + " ").Length + 2, text_location[9].Y);
+            Console.Write(head_color_1 + " / " + " < " + head_color_2 + " >" + " / " + head_color_3 + " / " + head_color_4 + "   ");
+            head_color = ConsoleColor.Blue;
+            placing_hero();
+            break;
+        case 3:
+            Console.SetCursorPosition(text_location[9].X + (head_color_text + " ").Length + 2, text_location[9].Y);
+            Console.Write(head_color_1 + " / " + head_color_2 + " / " + "< " + head_color_3 + " >" + " / " + head_color_4 + "   ");
+            head_color = ConsoleColor.White;
+            placing_hero();
+            break;
+
+        case 4:
+            Console.SetCursorPosition(text_location[9].X + (head_color_text + " ").Length + 2, text_location[9].Y);
+            Console.Write(head_color_1 + " / " + head_color_2 + " / " + head_color_3 + " / " + "< " + head_color_4 + " >" + "   ");
+            head_color = ConsoleColor.Gray;
+            placing_hero();
+            break;
+    }
+};
+
+Action hero_symbol_changing = () =>
+{
+    Console.SetCursorPosition(text_location[8].X + (hero_symbol_text + " ").Length + 2, text_location[8].Y);
+    Console.Write("[   ]                           ");
+    Console.SetCursorPosition(text_location[8].X + (hero_symbol_text + " ").Length + 4, text_location[8].Y);
+    hero_symbol = Console.ReadLine();
+    if (hero_symbol.Length > 1)
+    {
+        hero_symbol = "X";
+        Console.SetCursorPosition(text_location[8].X + (hero_symbol_text + " ").Length + 2, text_location[8].Y);
+        Console.Write("[1 symbol...]               ");
+    }
+    placing_hero();
+};
 
 placing_hero();
 
@@ -328,6 +384,27 @@ while (true)
 
         if (key.Key == ConsoleKey.RightArrow || key.Key == ConsoleKey.D)
         {
+
+            if (curent_selection == 8)
+            {
+                curent_selection_hero_symbol++;
+                if (curent_selection_hero_symbol > max_selection_hero_symbol)
+                {
+                    curent_selection_hero_symbol = min_selection_hero_symbol;
+                }
+                hero_symbol_changing();
+            }
+
+            if (curent_selection == 9)
+            {
+                curent_selection_head++;
+                if (curent_selection_head > max_selection_head)
+                {
+                    curent_selection_head = min_selection_head;
+                }
+                draw_head_text();
+            }
+
             if (curent_selection == 10)
             {
                 curent_selection_body++;
@@ -341,6 +418,16 @@ while (true)
 
         if (key.Key == ConsoleKey.LeftArrow || key.Key == ConsoleKey.A)
         {
+            if (curent_selection == 9)
+            {
+                curent_selection_head--;
+                if (curent_selection_head < min_selection_head)
+                {
+                    curent_selection_head = max_selection_head;
+                }
+                draw_head_text();
+            }
+
             if (curent_selection == 10)
             {
                 curent_selection_body--;
