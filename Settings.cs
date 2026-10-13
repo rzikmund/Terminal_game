@@ -44,10 +44,17 @@ down_text_location[0] = ((int)(window_width * 0.095), (int)(window_height * 0.95
 
 //pointer
 string pointer_symbol = "#";
-double pointer_index = 0;
+int pointer_index = 0;
 
 (int X, int Y)[] pointer = new (int, int)[2];
 pointer[0] = ((int)(window_width * 0.025), (int)(window_height * 0.15));
+
+int[] menu_y = new int[5];
+menu_y[0] = (int)(config_menu_location[0].Y);
+menu_y[1] = (int)(config_menu_location[0].Y * 1.5);
+menu_y[2] = (int)(config_menu_location[0].Y * 2);
+menu_y[3] = (int)(config_menu_location[0].Y * 2.5);
+menu_y[4] = (int)(config_menu_location[0].Y * 3);
 
 //----CODE----//
 
@@ -110,7 +117,6 @@ Console.Write(down_text3);
 //static pointer
 Console.SetCursorPosition(pointer[0].X, pointer[0].Y);
 Console.Write(pointer_symbol);
-pointer[0] = Console.GetCursorPosition();
 
 //user-controlled pointer
 while (true)
@@ -123,20 +129,26 @@ while (true)
             key = Console.ReadKey(true);
         }
 
-        int old_index = pointer
+        int old_index = pointer_index;
 
         if (key.Key == ConsoleKey.DownArrow || key.Key == ConsoleKey.S)
         {
-            Console.Write(" ");
-            Console.SetCursorPosition(pointer[0].X, (int)(pointer[0].Y*(pointer_data)));
-            Console.Write(pointer_symbol);
-            pointer[0] = (pointer[0].X, (int)(pointer[0].Y * (pointer_data+0.5)));
+            pointer_index = (pointer_index + 1) % 5;
         }
 
         if (key.Key == ConsoleKey.UpArrow || key.Key == ConsoleKey.W)
         {
-            
+            pointer_index = (pointer_index + 4) % 5;
         }
-        
+
+        if (old_index != pointer_index)
+        {
+            Console.SetCursorPosition(pointer[0].X, menu_y[old_index]);
+            Console.Write(" ");
+            pointer[0].Y = menu_y[pointer_index];
+            Console.SetCursorPosition(pointer[0].X, pointer[0].Y);
+            Console.Write(pointer_symbol);
+
+        }
     }
 }
