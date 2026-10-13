@@ -55,7 +55,14 @@ string asking_for_name_text = "[ Enter name... ]";
 ConsoleColor text_color = ConsoleColor.White;
 
 //statistic text
-string power_chart = "[░░░░░░░░░░]";
+string chart = "[░░░░░░░░░░]";
+
+int power_unit_used = 0;
+int intelligence_unit_used = 0;
+int dexterity_unit_used = 0;
+int points = 0;
+
+string points_text = "FREE POINTS: [ "+points+" ]";
 
 //line for border//
 string up_line = "│";
@@ -193,9 +200,20 @@ Console.SetCursorPosition(text_location[10].X + (body_color_text + " ").Length +
 Console.Write("< " + body_color_1 + " >" + " / " + body_color_2 + " / " + body_color_3 + " / " + body_color_4);
 
 //placing statistic
-Console.SetCursorPosition(statistics_location[1].X, statistics_location[1].Y);
-Console.Write(power_chart);
+for (int i = 0; i < 3; i++)
+{
+    Console.SetCursorPosition(statistics_location[1].X, statistics_location[1 + i].Y);
+    Console.Write(chart);
+}
 
+Console.SetCursorPosition(statistics_location[1].X + chart.Length+ 2, statistics_location[1].Y);
+Console.Write(power_unit_used);
+Console.SetCursorPosition(statistics_location[1].X + chart.Length + 2, statistics_location[2].Y);
+Console.Write(intelligence_unit_used);
+Console.SetCursorPosition(statistics_location[1].X + chart.Length + 2, statistics_location[3].Y);
+Console.Write(dexterity_unit_used);
+Console.SetCursorPosition(statistics_location[1].X + chart.Length + (int)(windows_width*0.15), statistics_location[1].Y);
+Console.Write(points_text);
 //placing hero
 Action placing_hero = () =>
 {
