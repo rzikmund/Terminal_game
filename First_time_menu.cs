@@ -60,10 +60,10 @@ ConsoleColor text_color = ConsoleColor.White;
 //statistic text
 string chart = "[░░░░░░░░░░]";
 
-int power_unit_used = 0;
-int intelligence_unit_used = 0;
-int dexterity_unit_used = 0;
-int points = 0;
+int power_unit_used = 2;
+int intelligence_unit_used = 2;
+int dexterity_unit_used = 2;
+int points = 5;
 
 string points_text = "FREE POINTS: [ "+points+" ]";
 
@@ -144,6 +144,11 @@ int min_selection_hero_name = 1;
 int curent_selection_profession = 1;
 int max_selection_profession = 3;
 int min_selection_profession = 1;
+
+
+int curent_selection_race = 1;
+int max_selection_race = 4;
+int min_selection_race = 1;
 
 string cursor_logo = "#";
 (int X, int Y)[] cursor = new (int, int)[1];
@@ -238,15 +243,47 @@ for (int i = 0; i < 3; i++)
     Console.SetCursorPosition(statistics_location[1].X, statistics_location[1 + i].Y);
     Console.Write(chart);
 }
+Action units = () =>
+{
+    Console.SetCursorPosition(statistics_location[1].X + chart.Length + 2, statistics_location[1].Y);
+    Console.Write(power_unit_used);
+    Console.SetCursorPosition(statistics_location[2].X + chart.Length + 2, statistics_location[2].Y);
+    Console.Write(intelligence_unit_used);
+    Console.SetCursorPosition(statistics_location[3].X + chart.Length + 2, statistics_location[3].Y);
+    Console.Write(dexterity_unit_used);
+    Console.SetCursorPosition(statistics_location[1].X + chart.Length + (int)(windows_width * 0.15), statistics_location[1].Y);
+    Console.Write(points_text);
 
-Console.SetCursorPosition(statistics_location[1].X + chart.Length+ 2, statistics_location[1].Y);
-Console.Write(power_unit_used);
-Console.SetCursorPosition(statistics_location[1].X + chart.Length + 2, statistics_location[2].Y);
-Console.Write(intelligence_unit_used);
-Console.SetCursorPosition(statistics_location[1].X + chart.Length + 2, statistics_location[3].Y);
-Console.Write(dexterity_unit_used);
-Console.SetCursorPosition(statistics_location[1].X + chart.Length + (int)(windows_width*0.15), statistics_location[1].Y);
-Console.Write(points_text);
+    Console.SetCursorPosition(statistics_location[1].X, statistics_location[1].Y);
+    Console.Write(chart);
+    for (int i = 0;i < power_unit_used; i++)
+    {
+        
+        Console.SetCursorPosition(statistics_location[1].X + 1 +i, statistics_location[1].Y);
+        Console.Write("▓");
+    }
+
+
+    Console.SetCursorPosition(statistics_location[1].X, statistics_location[2].Y);
+    Console.Write(chart);
+    for (int i = 0; i < intelligence_unit_used; i++)
+    {
+
+        Console.SetCursorPosition(statistics_location[1].X + 1 + i, statistics_location[2].Y);
+        Console.Write("▓");
+    }
+
+
+    Console.SetCursorPosition(statistics_location[1].X, statistics_location[3].Y);
+    Console.Write(chart);
+    for (int i = 0; i < dexterity_unit_used; i++)
+    {
+
+        Console.SetCursorPosition(statistics_location[1].X + 1 + i, statistics_location[3].Y);
+        Console.Write("▓");
+    }
+};
+units();
 //placing hero
 Action placing_hero = () =>
 {
@@ -370,17 +407,87 @@ Action profession = () =>
         case 1:
             Console.SetCursorPosition(text_location[4].X + (profession_text + "  " + arrow).Length + 3, text_location[4].Y);
             Console.Write("< " + profession_1 + " >" + " / " + profession_2 + " / " + profession_3);
+            profession_answer = profession_1;
+            points = 5;
+            points_text = "FREE POINTS: [ " + points + " ]";
+            Console.SetCursorPosition(statistics_location[1].X + chart.Length + (int)(windows_width * 0.15), statistics_location[1].Y);
+            Console.Write(points_text);
+            units();
             break;
         case 2:
             Console.SetCursorPosition(text_location[4].X + (profession_text + " ").Length + 3, text_location[4].Y);
             Console.Write("   "+profession_1 + " / " + " < " + profession_2 + " >" + " / " + profession_3 + "   ");
+            profession_answer = profession_2;            
+            points = 6;
+            points_text = "FREE POINTS: [ " + points + " ]";
+            Console.SetCursorPosition(statistics_location[1].X + chart.Length + (int)(windows_width * 0.15), statistics_location[1].Y);
+            Console.Write(points_text);
+            units();
             break;
         case 3:
             Console.SetCursorPosition(text_location[4].X + (profession_text + " ").Length + 3, text_location[4].Y);
             Console.Write("   " + profession_1 + " / " + profession_2 + " / " + "< " + profession_3 + " >" +  "   ");
+            profession_answer = profession_3;
+            points = 7;
+            points_text = "FREE POINTS: [ " + points + " ]";
+            Console.SetCursorPosition(statistics_location[1].X + chart.Length + (int)(windows_width * 0.15), statistics_location[1].Y);
+            Console.Write(points_text);
+            units();
             break;
         
+        
     }
+};
+
+Action race = () =>
+{
+    switch (curent_selection_race)
+    {
+        case 1:
+            Console.SetCursorPosition(text_location[3].X + (race_text + " ").Length + 2, text_location[3].Y);
+            Console.Write(">" + "  < " + race_1 + " >" + " / " + race_2 + " / " + race_3 + " / " + race_4 + "   ");
+            race_answer = race_1;
+
+            power_unit_used = 2;
+            intelligence_unit_used = 2;
+            dexterity_unit_used = 2;
+            units();
+            break;
+        
+        case 2:
+            Console.SetCursorPosition(text_location[3].X + (race_text + " ").Length + 2, text_location[3].Y);
+            Console.Write(">  " + race_1 + " / " + " < " + race_2 + " >" + " / " + race_3 + " / " + race_4 + "   ");
+            race_answer = race_2;
+
+            power_unit_used = 0;
+            intelligence_unit_used = 5;
+            dexterity_unit_used = 1;
+            units();
+            break;
+        
+        case 3:
+            Console.SetCursorPosition(text_location[3].X + (race_text + " ").Length + 2, text_location[3].Y);
+            Console.Write(">  " + race_1 + " / " + race_2 + " / " + "< " + race_3 + " >" + " / " + race_4 + "   ");
+            race_answer = race_3;
+
+            power_unit_used = 4;
+            intelligence_unit_used = 1;
+            dexterity_unit_used = 1;
+            units();
+            break;
+
+        case 4:
+            Console.SetCursorPosition(text_location[3].X + (race_text + " ").Length + 2, text_location[3].Y);
+            Console.Write(">  " + race_1 + " / " + race_2 + " / " + race_3 + " / " + "< " + race_4 + " >" + "   ");
+            race_answer = race_4;
+
+            power_unit_used = 2;
+            intelligence_unit_used = 0;
+            dexterity_unit_used = 4;
+            units();
+            break;
+    }
+
 };
 
 placing_hero();
@@ -438,6 +545,17 @@ while (true)
                 hero_name();
             }
 
+
+            if (curent_selection == 3)
+            {
+                curent_selection_race++;
+                if (curent_selection_race > max_selection_race)
+                {
+                    curent_selection_race = min_selection_race;
+                }
+                race();
+            }
+
             if (curent_selection == 4)
             {
                 curent_selection_profession++;
@@ -447,7 +565,34 @@ while (true)
                 }
                 profession();
             }
+            //
+            if (curent_selection == 5)
+            {
+                points--;
+                power_unit_used++;
+                units();
+            }
 
+            if (curent_selection == 6)
+            {
+                curent_selection_profession++;
+                if (curent_selection_profession > max_selection_profession)
+                {
+                    curent_selection_profession = min_selection_profession;
+                }
+                profession();
+            }
+
+            if (curent_selection == 7)
+            {
+                curent_selection_profession++;
+                if (curent_selection_profession > max_selection_profession)
+                {
+                    curent_selection_profession = min_selection_profession;
+                }
+                profession();
+            }
+            //
 
             if (curent_selection == 8)
             {
@@ -485,11 +630,31 @@ while (true)
             if (curent_selection == 2)
             {
                 curent_selection_hero_name--;
-                if (curent_selection_hero_name > min_selection_hero_name)
+                if (curent_selection_hero_name < min_selection_hero_name)
                 {
                     curent_selection_hero_name = max_selection_hero_name;
                 }
                 hero_name();
+            }
+            
+            if (curent_selection == 3)
+            {
+                curent_selection_race--;
+                if (curent_selection_race < min_selection_race)
+                {
+                    curent_selection_race = max_selection_race;
+                }
+                race();
+            }
+
+            if (curent_selection == 4)
+            {
+                curent_selection_profession--;
+                if (curent_selection_profession < min_selection_profession)
+                {
+                    curent_selection_profession = max_selection_profession;
+                }
+                profession();
             }
 
             if (curent_selection == 8)
