@@ -24,34 +24,16 @@ Action ground = () =>
     {
         for (int y = earth[0].Y_start; y <= earth[0].Y_end; y++)
         {
-            int random_symbol = Console.GetCursorPosition().Left + Console.GetCursorPosition().Top;
-            
-            if (Math.Abs(((random_symbol + seed) % 4) +1) == 1)
-            {
-                random_symbol = 1;
-            }
+            int random_symbol = (i ^ (y * 99999971) ^ (seed* 9999931));
 
-            if (Math.Abs(((random_symbol + seed) % 4) + 1) == 2)
-            {
-                random_symbol = 2;
-            }
+            int tile_ranodm = Math.Abs((random_symbol ^ seed)%4);
 
-            if (Math.Abs(((random_symbol + seed) % 4) + 1) == 3)
+            switch (tile_ranodm)
             {
-                random_symbol = 3;
-            }
-
-            if (Math.Abs(((random_symbol + seed) % 4) + 1) == 4)
-            {
-                random_symbol = 4;
-            }
-
-            switch (random_symbol)
-            {
-                case 1: earth_symbol = "█"; break;
-                case 2: earth_symbol = "▓"; break;
-                case 3: earth_symbol = "▒"; break;
-                case 4: earth_symbol = "░"; break;
+                case 0: earth_symbol = "█"; break;
+                case 1: earth_symbol = "▓"; break;
+                case 2: earth_symbol = "▒"; break;
+                case 3: earth_symbol = "░"; break;
             }
 
             Console.SetCursorPosition(i, y);
