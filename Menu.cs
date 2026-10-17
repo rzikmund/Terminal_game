@@ -4,8 +4,10 @@ namespace TermninalApp
     public class Menu
     {
         public void Play()
-        {
-            Console.CursorVisible = false;
+        {          
+
+            Frist_time_menu frist_time = new Frist_time_menu();
+            Settings settings = new Settings();
 
             int windows_height = Console.WindowHeight;
             int windows_width = Console.WindowWidth;
@@ -24,10 +26,12 @@ namespace TermninalApp
             //button-1
             (int X_start, int Y_start, int X_end, int Y_end)[] button1 = new (int, int, int, int)[1];
             button1[0] = ((int)(windows_width * 0.1), (int)(windows_height * 0.3), (int)(windows_width * 0.9), (int)(windows_height * 0.45));
+            
 
             //button-2
             (int X_start, int Y_start, int X_end, int Y_end)[] button2 = new (int, int, int, int)[1];
             button2[0] = ((int)(windows_width * 0.1), (int)(windows_height * 0.5), (int)(windows_width * 0.9), (int)(windows_height * 0.65));
+            
 
             //button-3
             (int X_start, int Y_start, int X_end, int Y_end)[] button3 = new (int, int, int, int)[1];
@@ -75,7 +79,7 @@ namespace TermninalApp
             Console.SetCursorPosition(windows_width - 1, windows_height - 1);
             Console.Write(right_down_corner);
 
-            Console.SetCursorPosition(windows_width, windows_height);
+            Console.SetCursorPosition((windows_width/2)-(educational.Length/2),(int)(windows_height*0.95));
             Console.Write(educational);
 
             //---actions for buttons---//
@@ -214,7 +218,6 @@ namespace TermninalApp
                                 button_settings();
                                 button_exit();
                                 break;
-
                             case 2:
                                 button_symbol = button_on;
                                 button_settings();
@@ -231,6 +234,32 @@ namespace TermninalApp
                                 button_settings();
                                 break;
                         }
+                    }
+
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        switch (cursor_location)
+                        {
+                            case 1:
+                                Console.Clear();
+                                frist_time.Play();
+                                break;
+
+
+                            case 2:
+                                Console.Clear();
+                                settings.Play();
+                                break;
+
+                            case 3:
+                                Environment.Exit(0);
+                                break;
+                        }
+                    }
+
+                    if (key.Key == ConsoleKey.Escape)
+                    {
+                        Environment.Exit(0);
                     }
                 }
             }

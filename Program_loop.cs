@@ -10,6 +10,9 @@ partial class Program
     static void Main(string[] args)
     {
         Menu menu = new Menu();
-        menu.Play();
+        Frist_time_menu frist_time = new Frist_time_menu();
+        Settings settings = new Settings();
+        menu.Play();    
+        
     }
 }
