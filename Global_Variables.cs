@@ -11,5 +11,7 @@ namespace TermninalApp
         public static int windows_height = Console.WindowHeight;
         public static int windows_width = Console.WindowWidth;
 
+        public static int seed = 123456;
+
     } 
 }

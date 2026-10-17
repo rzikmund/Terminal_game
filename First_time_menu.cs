@@ -16,6 +16,7 @@ namespace TermninalApp
         public void Play()
         {
             Console.CursorVisible = false;
+            Ground ground = new Ground();
 
             //----Variables----//
             int windows_height = Console.WindowHeight;
@@ -742,6 +743,8 @@ namespace TermninalApp
                     if (key.Key == ConsoleKey.Enter && curent_selection == 11)
                     {
                         first_time = 1;
+                        Console.Clear();
+                        ground.Play();
                     }
                 }
             }

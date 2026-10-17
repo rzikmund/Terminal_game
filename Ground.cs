@@ -17,8 +17,11 @@ namespace TermninalApp
             int windows_height = Console.WindowHeight;
             int windows_width = Console.WindowWidth;
 
-            Random random = new Random();
             string earth_symbol = "█";
+
+            uint tile_ranodm = 1;
+
+            int world_offset = 0;
 
             //earth
             (int X_start, int Y_start, int X_end, int Y_end)[] earth = new (int, int, int, int)[1];
@@ -49,44 +52,65 @@ namespace TermninalApp
 
 
             //----ACTIONS----//
+            Action<int, int> random = (x, y) =>
+            {   //random gererator with Bit mixer and XOR
+
+                tile_ranodm = ((uint)x * 732444753U);
+                tile_ranodm = ((uint)x * 732444753U);
+                tile_ranodm ^= ((uint)y * 227651033U);
+                tile_ranodm ^= ((uint)Global.seed * 105655039U);
+
+                tile_ranodm = (tile_ranodm ^ (tile_ranodm >> 16)) * 2246822507U;
+                tile_ranodm = (tile_ranodm ^ (tile_ranodm >> 13)) * 3266489909U;
+                tile_ranodm = (tile_ranodm ^ (tile_ranodm >> 16));
+
+
+            };
+
             Action ground = () =>
             {
                 for (int i = earth[0].X_start; i <= earth[0].X_end; i++)
                 {
                     for (int y = earth[0].Y_start; y <= earth[0].Y_end; y++)
                     {
-                        int random_symbol = random.Next(1, 5);
+                        random(i + world_offset, y);
+                        tile_ranodm = tile_ranodm % 4;
 
-                        switch (random_symbol)
+                        switch (tile_ranodm)
                         {
-                            case 1: earth_symbol = "█"; break;
-                            case 2: earth_symbol = "▓"; break;
-                            case 3: earth_symbol = "▒"; break;
-                            case 4: earth_symbol = "░"; break;
+                            case 0: earth_symbol = "█"; break;
+                            case 1: earth_symbol = "▓"; break;
+                            case 2: earth_symbol = "▒"; break;
+                            case 3: earth_symbol = "░"; break;
                         }
 
                         Console.SetCursorPosition(i, y);
                         Console.Write(earth_symbol);
+
                     }
                 }
+
                 //---generatig grass---//
                 for (int i = grass_start_x; i <= grass_end_x; i++)
                 {
-                    int random_grass = random.Next(1, 101);
+                    random(i + world_offset, earth[0].Y_start - 1);
+                    tile_ranodm = tile_ranodm % 101;
                     Console.SetCursorPosition(i, earth[0].Y_start - 1);
-                    if (random_grass <= grass_chance)
+                    if (tile_ranodm == 1)
                     {
                         Console.Write(grass);
                     }
                 }
+
                 //---generating stars---//
                 for (int i = star[0].X_start; i <= star[0].X_end; i++)
                 {
                     for (int y = star[0].Y_start; y <= star[0].Y_end; y++)
                     {
-                        int random_star = random.Next(1, 101);
+                        random(i + world_offset, y);
+                        tile_ranodm = tile_ranodm % 101;
                         Console.SetCursorPosition(i, y);
-                        if (random_star <= star_chance)
+                        if (tile_ranodm == 1)
                         {
                             Console.Write(star_symbol);
                         }
@@ -162,6 +186,10 @@ namespace TermninalApp
                             star[0] = (windows_width - 1, 0, windows_width - 1, (int)(windows_height * 0.2));
                             grass_start_x = windows_width - 1;
                             grass_end_x = windows_width - 1;
+                            
+
+                            earth[0] = (windows_width-1, (int)(windows_height * 0.9), windows_width - 1, windows_height - 1);
+                            ground();
                             Console.MoveBufferArea
                                 (
                                     sourceLeft: 1,
@@ -171,6 +199,9 @@ namespace TermninalApp
                                     targetLeft: 0,
                                     targetTop: 0
                                 );
+
+
+                            world_offset++;
                             ground();
                             hero_movement();
                         }
@@ -284,3 +315,6 @@ namespace TermninalApp
         }
     }
 }
+         
+        
+    
