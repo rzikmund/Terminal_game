@@ -18,7 +18,7 @@ string earth_symbol = "█";
 (int X_start, int Y_start, int X_end, int Y_end)[] earth = new (int, int, int, int)[1];
 earth[0] = (0, (int)(windows_height * 0.9), windows_width - 1, windows_height - 1);
 
-Action ground = () =>
+Action ground = () =>s
 {
     for (int i = earth[0].X_start; i <= earth[0].X_end; i++)
     {
