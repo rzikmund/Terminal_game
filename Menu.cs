@@ -33,9 +33,52 @@ namespace TermninalApp
             (int X_start, int Y_start, int X_end, int Y_end)[] button3 = new (int, int, int, int)[1];
             button3[0] = ((int)(windows_width * 0.1), (int)(windows_height * 0.7), (int)(windows_width * 0.9), (int)(windows_height * 0.85));
 
+            //line for border//
+            string up_line = "│";
+            string line = "─";
+
+            string left_up_corner = "┌";
+            string left_down_corner = "└";
+            string right_up_corner = "┐";
+            string right_down_corner = "┘";
+
+            //educational text
+            string educational = "W / S = move    ENTER = select    ESC = exit";
 
             //---code---//
 
+            //generating lying lines
+            for (int i = 1; i < windows_width - 1; i++)
+            {
+                Console.SetCursorPosition(i, 0);
+                Console.Write(line);
+                Console.SetCursorPosition(i, windows_height - 1);
+                Console.Write(line);
+            }
+
+            //generating up lines
+            for (int i = 1; i < windows_height - 1; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.Write(up_line);
+                Console.SetCursorPosition(windows_width - 1, i);
+                Console.Write(up_line);
+            }
+
+            //generating corners
+            Console.SetCursorPosition(0, 0);
+            Console.Write(left_up_corner);
+            Console.SetCursorPosition(0, windows_height - 1);
+            Console.Write(left_down_corner);
+            Console.SetCursorPosition(windows_width - 1, 0);
+            Console.Write(right_up_corner);
+            Console.SetCursorPosition(windows_width - 1, windows_height - 1);
+            Console.Write(right_down_corner);
+
+            Console.SetCursorPosition(windows_width, windows_height);
+            Console.Write(educational);
+
+            //---actions for buttons---//
             Action button_start = () =>
             {
                 for (int i = button1[0].X_start; i <= button1[0].X_end; i++)
@@ -95,6 +138,10 @@ namespace TermninalApp
                 Console.SetCursorPosition((button3[0].X_start + (button3[0].X_end - button3[0].X_start) / 2) - ((int)button3_text.Length) / 2, (button3[0].Y_start + (button3[0].Y_end - button3[0].Y_start) / 2));
                 Console.Write(button3_text);
             };
+
+            button_start();
+            button_settings();
+            button_exit();
             while (true)
             {
                 if (Console.KeyAvailable)
@@ -145,6 +192,8 @@ namespace TermninalApp
                                 break;
                         }
                     }
+
+                    
 
                     if (key.Key == ConsoleKey.UpArrow || key.Key == ConsoleKey.W)
                     {

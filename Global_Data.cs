@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace TermninalApp
 {
-    public static class Global_Data
+    public static class Global
     {
         public static int windows_height = Console.WindowHeight;
         public static int windows_width = Console.WindowWidth;
+
     } 
 }
