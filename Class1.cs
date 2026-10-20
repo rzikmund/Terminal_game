@@ -11,7 +11,7 @@ namespace TermninalApp
     {
         public void Play()
         {/*
-int seed = 1156445;
+int seed = 1156445;dsds dfsdfsd sdfdsfs dsfsdfds consoels asdas
 
 
 int windows_height = Console.WindowHeight;

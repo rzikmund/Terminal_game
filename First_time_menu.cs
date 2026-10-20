@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using NAudio.Wave;
 
 namespace TermninalApp
 {
@@ -511,6 +512,12 @@ namespace TermninalApp
 
             while (true)
             {
+                using (var audioFile = new AudioFileReader("Terminal_game/Sounds/Week 24 - Pull Me Down DEEP WELL.ogg"))
+                using (var outputDevice = new WaveOutEvent())
+                {
+                    outputDevice.Init(audioFile);
+                    outputDevice.Play();
+                }
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo key = Console.ReadKey(true);
