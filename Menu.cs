@@ -142,8 +142,9 @@ namespace TermninalApp
                 Console.SetCursorPosition((button3[0].X_start + (button3[0].X_end - button3[0].X_start) / 2) - ((int)button3_text.Length) / 2, (button3[0].Y_start + (button3[0].Y_end - button3[0].Y_start) / 2));
                 Console.Write(button3_text);
             };
-
+            button_symbol = button_on;
             button_start();
+            button_symbol = button_off;
             button_settings();
             button_exit();
             while (true)
