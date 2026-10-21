@@ -1,14 +1,16 @@
-﻿using System;
+﻿using NAudio.Vorbis;
+using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using NAudio.Wave;
 
 namespace TermninalApp
 {
@@ -95,7 +97,7 @@ namespace TermninalApp
             int intelligence_answer = 0;
             int dexterity_answer = 0;
 
-            int first_time = 0; //0-yes, 1-no
+            bool first_time = true;
 
             //hero outfit
             string hero_symbol = "X";
@@ -508,16 +510,31 @@ namespace TermninalApp
 
 
             //-----DYNAMIC CODE ------//
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"..\..\..\", "music.ogg");
+            var reader = new VorbisWaveReader(filePath);
+            var output = new WaveOutEvent();
+            {
+                output.Volume = 0.1f;
+                output.Init(reader);
+                Task.Run(() => output.Play());
+            }
+            
+            output.PlaybackStopped += (sender, args) =>
+            {
+                if (first_time == true)
+                { 
+                    reader.Position = 0;
+                    output.Play();
+                }
+            };
+            
 
 
             while (true)
             {
-                using (var audioFile = new AudioFileReader("Terminal_game/Sounds/Week 24 - Pull Me Down DEEP WELL.ogg"))
-                using (var outputDevice = new WaveOutEvent())
-                {
-                    outputDevice.Init(audioFile);
-                    outputDevice.Play();
-                }
+                
+
+
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo key = Console.ReadKey(true);
@@ -749,7 +766,10 @@ namespace TermninalApp
 
                     if (key.Key == ConsoleKey.Enter && curent_selection == 11)
                     {
-                        first_time = 1;
+                        first_time = false;
+                        output.Stop();
+                        output.Dispose();
+                        reader.Dispose();
                         Console.Clear();
                         ground.Play();
                     }

@@ -9,8 +9,14 @@
 
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="NAudio.Vorbis" Version="1.5.0" />
   </ItemGroup>
 
-</Project>
+<ItemGroup>
+  <None Update="Week 24 - Pull Me Down DEEP WELL.ogg">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </None>
+</ItemGroup>
 
-<ItemGrup></ItemGrup>
+
+</Project>
